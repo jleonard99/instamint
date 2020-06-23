@@ -23,10 +23,8 @@ from my_like_util import check_link2
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
-from my_database_util import storeRecord
+from my_database_util import storeRecord,prepare_my_database, storeTaggedActivitytoDB, getFreshTaggedLinks
 
-
-csvfile = "link.csv"
 
 username = "lovin_the_rva"
 password = "yellowbrickroad"
@@ -34,6 +32,7 @@ password = "yellowbrickroad"
 session = InstaPy(username=username, password=password)
 session.login()
 
+prepare_my_database(session.logger)
 
 # shopthemint, shopreddress, thepinklilyboutique
 
@@ -49,6 +48,9 @@ taggedImages = True
 # This is a fairly light-weight activity, and shouldn't consume any instragram-resources
 
 try:
+
+   existing_links = getFreshTaggedLinks( session.logger )
+
    links = get_links_for_username(
     session.browser,
     session.username,
@@ -110,6 +112,22 @@ for i, posted_link in enumerate(links):
             last_checked_age_in_hrs = deltatime.seconds / 3600.00
 
             storeRecord(
+                username1,
+                last_checked_age_in_hrs,
+                last_checked_datetime,
+                posted_link,
+                posted_link_datetime,
+                posted_link_location_name,
+                posted_link_image_text,
+                posted_link_likes_count,
+                posted_link_comments_count,
+                posted_by_username,
+                posted_by_followers_count,
+                posted_by_following_count
+            )
+
+            storeTaggedActivitytoDB(
+                session.logger,
                 username1,
                 last_checked_age_in_hrs,
                 last_checked_datetime,
