@@ -11,8 +11,10 @@ tuples = (
 )
 
 amount = 351
+amountToQuickscan = 800   # number of links on tagged page to quickscan
+amountToLookup = 450      # max number of links to lookup
 
 for i,(username,password,username1) in enumerate( tuples ):
     print(i,username,password,username1)
-    OnePass( username, password, username1, amount )
+    OnePass( username, password, username1, amountToQuickscan, amountToLookup )
 

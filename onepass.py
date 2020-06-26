@@ -28,7 +28,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from my_database_util import storeRecord,prepare_my_database, storeTaggedActivitytoDB, getFreshTaggedLinks
 
 
-def OnePass( username, password, username1, amount ):
+def OnePass( username, password, username1, amountToQuickscan, amountToLookup ):
 
     # start the scan
 
@@ -55,7 +55,7 @@ def OnePass( username, password, username1, amount ):
             session.browser,
             session.username,
             username1,
-            amount,
+            amountToQuickscan,
             session.logger,
             session.logfolder,
             randomize,
@@ -63,9 +63,12 @@ def OnePass( username, password, username1, amount ):
             taggedImages
         )
         links = list(set(fresh_links) - set(ignore_links))
-        session.logger.info("Links at start: {}".format(len(fresh_links)))
+        session.logger.info("Links quickscanned: {}".format(len(fresh_links)))
         session.logger.info("Links to ignore: {}".format(len(ignore_links)))
-        session.logger.info("Links to process: {}".format(len(links)))
+        
+        links[:amountToLookup] if len(links)>amountToLookup else links
+        session.logger.info("Links to lookup: {}".format(len(links)))
+
 
     except NoSuchElementException:
         session.logger.error("Element not found, skipping this username")

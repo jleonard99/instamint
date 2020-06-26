@@ -138,8 +138,8 @@ def getFreshTaggedLinks( username,logger ):
                         " and username1=?"
                         " and (last_checked_datetime = (select max(last_checked_datetime) from taggedLinksActivity b where a.posted_link=b.posted_link))"
                         " and ("
-                        "    ( (julianday(datetime('now')) - julianday(last_checked_datetime))*24 <= 20.0)"
-                        " or ( (julianday(datetime('now')) - julianday(posted_link_datetime))*24  >= 72.0)"
+                        "    ( (julianday(datetime('now')) - julianday(last_checked_datetime))*24 <= 24.0)"
+                        " or ( (julianday(datetime('now')) - julianday(posted_link_datetime))*24  >= 48.0)"
                         " )",(username,))
             data = cur.fetchall()
             for d in data:
