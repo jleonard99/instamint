@@ -110,10 +110,10 @@ def get_links_for_username(
 
     while len(links) < amount:
         initial_links = links
+        sleep(1.0)
         browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         # update server calls after a scroll request
         update_activity(browser, state=None)
-        sleep(0.66)
 
         # using `extend`  or `+=` results reference stay alive which affects
         # previous assignment (can use `copy()` for it)
@@ -122,7 +122,9 @@ def get_links_for_username(
         links = sorted(set(links), key=links.index)
 
         if len(links) == len(initial_links):
-            if attempt >= 7:
+            logger.info("Pausing 30s during scroll for new links.  Currently at: {} of {} (attempt:{})".format(len(links),amount,attempt))
+            sleep(30.0)
+            if attempt >= 60:
                 logger.info(
                     "There are possibly less posts than {} in {}'s profile "
                     "page!".format(amount, person)
