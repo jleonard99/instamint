@@ -1,3 +1,6 @@
+"""
+This utility scans to find the most recent links.  
+"""
 from onepass import OnePass
 from instapy import Settings
 
@@ -10,11 +13,9 @@ tuples = (
     ("fabulously_rva","yellowbrickroad","thepinklilyboutique")
 )
 
-amount = 351
-amountToQuickscan = 800   # number of links on tagged page to quickscan
-amountToLookup = 450      # max number of links to lookup
+amountToQuickscan = 500   # number of links on tagged page to scroll and review.
+amountToLookup = 475     # max number of links to lookup (set to max links that Instagram permits downloaded in a single day.)
 
 for i,(username,password,username1) in enumerate( tuples ):
-    print(i,username,password,username1)
-    OnePass( username, password, username1, amountToQuickscan, amountToLookup )
+    OnePass( username, password, username1, amountToQuickscan, amountToLookup, i+1, len(tuples) )
 

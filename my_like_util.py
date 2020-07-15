@@ -39,6 +39,7 @@ def get_links_for_username(
     randomize=False,
     media=None,
     taggedImages=False,
+    imageToFind=None
 ):
     """
     Fetches the number of links specified by amount and returns a list of links
@@ -118,8 +119,13 @@ def get_links_for_username(
         # using `extend`  or `+=` results reference stay alive which affects
         # previous assignment (can use `copy()` for it)
         main_elem = browser.find_element_by_tag_name("article")
-        links = links + get_links(browser, person, logger, media, main_elem)
+
+        tempLinks = get_links(browser, person, logger, media, main_elem)
+        links = links + tempLinks
         links = sorted(set(links), key=links.index)
+
+        if len(tempLinks)>0 and (imageToFind is not None) and (imageToFind in tempLinks):
+            break
 
         if len(links) == len(initial_links):
             logger.info("Pausing 30s during scroll for new links.  Currently at: {} of {} (attempt:{})".format(len(links),amount,attempt))
@@ -814,11 +820,12 @@ def check_link2(
     if image_text is None:
         image_text = "No description"
 
-    logger.info("-Image from: {}".format(user_name.encode("utf-8")))
-    logger.info("-Link: {}".format(post_link.encode("utf-8")))
+    logger.info("-Posted by: {}  image likes: {}  image comments: {}".format(user_name.encode("utf-8"),likes_count,comments_count))
+#    logger.info("-Link: {}".format(post_link.encode("utf-8")))
 #    logger.info("Description: {}".format(image_text.encode("utf-8")))
-    logger.info("-Likes: {}".format(likes_count))
-    logger.info("-Comments: {}".format(comments_count))
+#    logger.info("-Posted date: {}:".format(posting_datetime_str))
+#    logger.info("-Likes: {}".format(likes_count))
+#    logger.info("-Comments: {}".format(comments_count))
 
     # Check if mandatory character set, before adding the location to the text
     if mandatory_language:
