@@ -13,19 +13,19 @@ Settings.database_location = "C:\\Users\\john\\Projects\\instamint\\instapy.db"
 # changed order 8/2/2020 to reduce number of time-outs.
 
 usernames = (
+                ("fabulous3_rva","yellowbrickroad",None,None,475),
+                ("fabulous4_rva","yellowbrickroad",None,None,475),
+                ("fabulous5_rva","yellowbrickroad",None,None,475),
+                ("fabulous6_rva","yellowbrickroad",None,None,475),
                 ("fabulous8_rva","yellowbrickroad",None,None,475),
                 ("fabulous9_rva","yellowbrickroad",None,None,475),
                 ("fabulous0_rva","yellowbrickroad",None,None,475),
                 ("fabulous1_rva","yellowbrickroad",None,None,475),
                 ("fabulous2_rva","yellowbrickroad",None,None,475),
-                ("fabulous3_rva","yellowbrickroad",None,None,475),
-                ("fabulous4_rva","yellowbrickroad",None,None,475),
-                ("fabulous5_rva","yellowbrickroad",None,None,475),
-                ("fabulous6_rva","yellowbrickroad",None,None,475),
                 ("fabulous7_rva","yellowbrickroad",None,None,475),
-                ("livin_in_rva",  "yellowbrickroad","shopthemint",None,474),        # 1100
-                ("lovin_the_rva", "yellowbrickroad","shopreddress",None,474),       # 2700
-                ("fabulously_rva","yellowbrickroad","thepinklilyboutique",None,474) # 3300
+                ("fabulously_rva","yellowbrickroad","pinklily",None,1200),       # 3300
+                ("lovin_the_rva", "yellowbrickroad","shopreddress",None,900),    # 2700
+                ("livin_in_rva",  "yellowbrickroad","shopthemint",None,600)      # 1100
 )
 
 ##
