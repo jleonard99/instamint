@@ -111,7 +111,7 @@ def get_links_for_username(
 
     while len(links) < amount:
         initial_links = links
-        sleep(1.0)
+        sleep(1.25)
         browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         # update server calls after a scroll request
         update_activity(browser, state=None)
@@ -128,8 +128,8 @@ def get_links_for_username(
             break
 
         if len(links) == len(initial_links):
-            logger.info("Pausing 30s during scroll for new links.  Currently at: {} of {} (attempt:{})".format(len(links),amount,attempt))
-            sleep(30.0)
+            logger.info("Pausing 45s during scroll for new links.  Currently at: {} of {} (attempt:{})".format(len(links),amount,attempt))
+            sleep(45.0)
             if attempt >= 60:
                 logger.info(
                     "There are possibly less posts than {} in {}'s profile "
@@ -501,7 +501,7 @@ def get_links(browser, page, logger, media, element):
                         post_category = element.find_element_by_xpath(
                             "//a[@href='/p/"
                             + post_href.split("/")[-2]
-                            + "/']/child::div[@class='u7YqG']/child::span"
+                            + "/']/child::div[@class='u7YqG']/child::div"
                         ).get_attribute("aria-label")
 
                         if post_category in media:

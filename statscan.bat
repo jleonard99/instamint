@@ -1,4 +1,4 @@
 @echo off
-python linkscan3.py
+python linkscan4.py
 python wb2.py
 pause

@@ -12,37 +12,57 @@ Settings.database_location = "C:\\Users\\john\\Projects\\instamint\\instapy.db"
 
 # changed order 8/2/2020 to reduce number of time-outs.
 
+# shopthemint, pinklily, shopreddress
+
 usernames = (
-                ("fabulous3_rva","yellowbrickroad",None,None,475),
-                ("fabulous4_rva","yellowbrickroad",None,None,475),
-                ("fabulous5_rva","yellowbrickroad",None,None,475),
-                ("fabulous6_rva","yellowbrickroad",None,None,475),
-                ("fabulous8_rva","yellowbrickroad",None,None,475),
-                ("fabulous9_rva","yellowbrickroad",None,None,475),
-                ("fabulous0_rva","yellowbrickroad",None,None,475),
-                ("fabulous1_rva","yellowbrickroad",None,None,475),
-                ("fabulous2_rva","yellowbrickroad",None,None,475),
-                ("fabulous7_rva","yellowbrickroad",None,None,475),
-                ("fabulously_rva","yellowbrickroad","pinklily",None,1200),       # 3300
-                ("lovin_the_rva", "yellowbrickroad","shopreddress",None,900),    # 2700
-                ("livin_in_rva",  "yellowbrickroad","shopthemint",None,600)      # 1100
+
+                ("fabulous3_rva","yellowbrickroad",None,None,475),    # john3@lowkeylabs.com, 404-247-1582
+                ("fabulous10_rva","yellowbrickroad1",None,None,475),  # 404-247-1582
+                ("fabulously_rva","yellowbrickroad",None,None,475),   # 3300   #jleonard99@precisiontraffic.com, 804-835-0224
+                ("livin_in_rva",  "yellowbrickroad",None,None,475),   # 1100   #jleonard99@gmail, 804-835-0224
+                ("fabulous4_rva","yellowbrickroad",None,None,475),    # john4@lowkeylabs.com, 404-247-1582
+#                ("fabulous20_rva","yellowbrickroad",None,None,475),  # john20@lowkeylabs.com
+
+#                ("fabulous21_rva","yellowbrickroad",None,None,475),  #john21@lowkeylabs.com
+#                ("fabulous22_rva","yellowbrickroad",None,None,475),  #john22@lowkeylabs.com
+
+
+#                ("fabulous0_rva","yellowbrickroad",None,None,475),  #john0@lowkeylabs.com
+#                ("fabulous1_rva","yellowbrickroad",None,None,475),  #john1@lowkeylabs.com
+#                ("fabulous2_rva","yellowbrickroad",None,None,475),  #john2@lowkeylabs.com
+
+#                ("fabulous5_rva","yellowbrickroad",None,None,475),  #john5@lowkeylabs.com
+#                ("fabulous6_rva","yellowbrickroad",None,None,475),  # john6@lowkeylabs.com
+#                ("fabulous7_rva","yellowbrickroad",None,None,475),  #john7@lowkeylabs.com
+#                ("fabulous8_rva","yellowbrickroad2",None,None,475), # john8@lowkeylabs.com
+#                ("fabulous9_rva","yellowbrickroad2",None,None,475), #john9@lowkeylabs.com  804-835-0224
+
+                ("lovin_the_rva", "yellowbrickroad1",None,None,475)    # 2700  #john@lowkeylabs.com, 404-247-1582
 )
 
 ##
 ## For each username, determine recent account usage and set session limits
 ##
 
-#for i,(username1,password,shoppingsite,imageToFind,linksPerSession) in enumerate( usernames ):
-#    recentLinks = getRecentSessionActivityFromDB( username1 )
-#    usernames[i][5]=min(linksPerSession,475-recentLinks)
+def availableLinks():
+    iLinks = 0
+    for usernameCount,(username,password,xx,yy,linksPerSession) in enumerate(usernames):
+        recentLinks = getRecentSessionActivityFromDB( username )
+        iLinks = iLinks + (475 - recentLinks)
+    return iLinks
+
+print(f"\n*** Available Links: {availableLinks()}")
 
 ##
-##
+## build list of recent posts, then filter out links already in DB
 ##
 
 links = []
 
 for i,(username,password,shoppingsite,imageToFind,linksPerSession) in enumerate( usernames ):
+
+    shoppingsite = "shopthemint"
+    linksPerSession = 1800
 
     if not shoppingsite==None:
         tempLinks = []
@@ -63,10 +83,13 @@ for i,(username,password,shoppingsite,imageToFind,linksPerSession) in enumerate(
         tempLinks = list( {(shoppingsite,link) for link in tempLinks } )
         links = links + tempLinks
 
+    break
 ##
 ##  At this stage, we've got a list of links that need checking.
 ##  Now, get activity on all user accounts over the past 24 hours and find unused capacity
 ##
+
+print(f"\n*** Links to process: {len(links)}")
 
 linkCount = 0
 for usernameCount,(username,password,xx,yy,linksPerSession) in enumerate(usernames):
@@ -98,3 +121,10 @@ for usernameCount,(username,password,xx,yy,linksPerSession) in enumerate(usernam
             break
 
 print("\n*** Links processed: {}".format(linkCount))
+
+availableLinks = 0
+for usernameCount,(username,password,xx,yy,linksPerSession) in enumerate(usernames):
+    recentLinks = getRecentSessionActivityFromDB( username )
+    availableLinks = availableLinks + (475 - recentLinks)
+
+print(f"\n*** Available Links: {availableLinks}")

@@ -31,7 +31,7 @@ with RECURSIVE dates(date) AS (
   UNION ALL
   SELECT date(date, '+1 day')
   FROM dates
-  WHERE date < '2020-12-31'
+  WHERE date < '2021-12-31'
 ),
 taggedLinks_cte as (
 SELECT
@@ -104,14 +104,16 @@ SELECT
   posted_link_location_name,
   last_checked_datetime,
   case when posted_by_followers_count>=50000 then 1 else 0 end as posted_by_plus_50k,
-  strftime("%d",posted_link_date)||"-"||posted_link_month as converted_day
+  strftime("%d",posted_link_date)||"-"||posted_link_month as converted_day,
+  strftime("%Y",a.date) as posted_year
 FROM
   dates a left join taggedLinks_cte2 b on (a.date=b.posted_link_date)
 ORDER BY
     a.date,
     username1,
     posted_link_datetime
-""").fetchall()
+"""
+).fetchall()
 cxn.close()
 
 SHEET_ID = "13jCZpVEzYo0iAo3WuBaPxZrtB6curUrhpwZ2sJrlPfg"
@@ -134,14 +136,15 @@ FIELDS = (
         'posted link location text',
         'last checked datetime',
         'poster has 50k plus followers',
-        'converted day for monthly charts'
+        'converted day for monthly charts',
+        'posted year'
         )
 
 rows.insert(0, FIELDS)
 data = {'values': [row for row in rows]}
 
 SHEETS.spreadsheets().values().update(spreadsheetId=SHEET_ID,
-    range='SourceData!A1', body=data, valueInputOption='RAW').execute()
+    range='Source-data!A1', body=data, valueInputOption='RAW').execute()
 
 print('Wrote data to Sheet:{}'.format(len(rows)))
 
